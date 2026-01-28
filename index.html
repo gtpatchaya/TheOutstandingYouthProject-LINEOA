@@ -41,11 +41,14 @@
       background: linear-gradient(135deg, var(--royal-purple), #5a1e6b);
       color: var(--white);
       padding: 20px 15px;
-      text-align: center;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       border-bottom: 3px solid var(--royal-gold);
       position: relative;
       z-index: 10;
+      /* Flexbox for layout */
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     header h1 {
@@ -61,6 +64,36 @@
       font-size: 0.9rem;
       opacity: 0.9;
       font-weight: 300;
+    }
+
+    .header-logo {
+      height: 60px;
+      width: auto;
+
+      margin-right: 15px;
+      /* Remove absolute positioning */
+    }
+
+    /* Wrap text for vertical stacking */
+    .header-content {
+      text-align: left;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 480px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .header-logo {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+
+      .header-content {
+        text-align: center;
+      }
     }
 
     /* --- Navigation Tabs --- */
@@ -255,8 +288,13 @@
 <body>
 
   <header>
-    <h1>โครงการคัดเลือกเยาวชนคนเก่ง</h1>
-    <p>ประจำปีงบประมาณ ๒๕๖๙</p>
+    <img src="img/logo.png" alt="Logo" class="header-logo">
+    <div class="header-content">
+      <h1>โครงการคัดเลือกเยาวชนคนเก่ง</h1>
+      <p>ในโครงการด้วยรักและห่วงใย ในพระราชูปถัมภ์</p>
+      <p>สมเด็จพระกนิษฐาธิราชเจ้า กรมสมเด็จพระเทพรัตนราชสุดาฯ <br />สยามบรมราชกุมารี</p>
+      <p>รุ่นที่ ๑๐ ประจำปี ๒๕๖๙</p>
+    </div>
   </header>
 
   <div class="tabs">
@@ -350,27 +388,30 @@
 
     <div id="contact" class="page-section">
       <div class="search-box">
-        <input type="text" id="provinceInput" class="search-input" placeholder="พิมพ์ชื่อจังหวัด (เช่น น่าน, ตาก)...">
+        <input type="text" id="provinceInput" class="search-input" placeholder="พิมพ์ชื่อกลุ่ม/ภาค...">
       </div>
 
       <div id="contactList" class="contact-list">
       </div>
-      <div id="noResult" class="no-result">ไม่พบข้อมูลในจังหวัดที่ระบุ</div>
+      <div id="noResult" class="no-result">ไม่พบข้อมูลกลุ่มที่ระบุ</div>
     </div>
 
   </div>
 
   <script>
     // --- Mockup Data (ข้อมูลสมมติที่ดูน่าเชื่อถือ) ---
+    // --- Mockup Data (ข้อมูลสมมติที่ดูน่าเชื่อถือ) ---
     const contacts = [
-      { province: "เชียงใหม่", name: "นายวีระศักดิ์ ภักดีชน", phone: "081-234-5678" },
-      { province: "เชียงราย", name: "นางสาวกานดา รักถิ่น", phone: "089-876-5432" },
-      { province: "น่าน", name: "นายสมชาย ใจมั่น", phone: "086-111-2222" },
-      { province: "ตาก", name: "นางดวงพร เจริญสุข", phone: "084-555-6666" },
-      { province: "แม่ฮ่องสอน", name: "นายอาทิตย์ แสงทอง", phone: "082-333-4444" },
-      { province: "พิษณุโลก", name: "นางสาวมาลี สีงาม", phone: "081-999-8888" },
-      { province: "กาญจนบุรี", name: "นายประเสริฐ ยั่งยืน", phone: "083-777-1234" },
-      { province: "ราชบุรี", name: "นางสมหญิง จริงใจ", phone: "085-222-3333" },
+      { province: "กลุ่มภาคเหนือตอนบน", name: "นางสาวประกายดาว ส่องแสง", phone: "081-111-2222" },
+      { province: "กลุ่มภาคเหนือตอนล่าง", name: "นายขุนเขา รักป่า", phone: "082-222-3333" },
+      { province: "กลุ่มภาคอีสานตอนบน", name: "นางไหมแพร งามตา", phone: "083-333-4444" },
+      { province: "กลุ่มภาคอีสานตอนล่าง", name: "นายข้าวหอม พร้อมพรัก", phone: "084-444-5555" },
+      { province: "กลุ่มภาคกลาง (ยกเว้นกรุงเทพฯ)", name: "นางสายน้ำ ไหลเย็น", phone: "085-555-6666" },
+      { province: "กรุงเทพมหานคร และปริมณฑล", name: "นายเมืองแก้ว แวววาว", phone: "086-666-7777" },
+      { province: "กลุ่มภาคตะวันตก", name: "นางกาญจน์กมล คนดี", phone: "087-777-8888" },
+      { province: "กลุ่มภาคตะวันออก", name: "นายทะเลไทย ใสสะอาด", phone: "088-888-9999" },
+      { province: "กลุ่มภาคใต้อันดามัน", name: "นางฟ้าใส ใจสะอาด", phone: "089-999-0000" },
+      { province: "กลุ่มภาคใต้อ่าวไทย", name: "นายปักษ์ใต้ บ้านเรา", phone: "090-000-1111" },
     ];
 
     // --- Helper Function: แปลงเลข อารบิก -> ไทย ---
@@ -417,7 +458,7 @@
         div.className = 'contact-item';
         div.innerHTML = `
                     <div class="contact-info">
-                        <strong>จังหวัด${item.province}</strong>
+                        <strong>${item.province}</strong>
                         <span>ผู้ประสานงาน: ${item.name}</span><br>
                         <span style="color: var(--royal-purple)">โทร: ${toThaiNum(item.phone)}</span>
                     </div>
