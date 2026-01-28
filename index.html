@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>โครงการในพระราชดำริฯ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    :root {
+      --royal-purple: #742d88;
+      /* ม่วงเทพรัตน์ */
+      --royal-gold: #d4af37;
+      /* ทองด้านดูแพง */
+      --cream-bg: #fdfbf7;
+      /* พื้นหลังครีมนวล */
+      --text-dark: #333333;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Sarabun', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--cream-bg);
+      color: var(--text-dark);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* --- Header --- */
+    header {
+      background: linear-gradient(135deg, var(--royal-purple), #5a1e6b);
+      color: var(--white);
+      padding: 20px 15px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      border-bottom: 3px solid var(--royal-gold);
+      position: relative;
+      z-index: 10;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      line-height: 1.5;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      font-size: 0.9rem;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+
+    /* --- Navigation Tabs --- */
+    .tabs {
+      display: flex;
+      background-color: var(--white);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 9;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 15px 5px;
+      border: none;
+      background: none;
+      font-family: 'Sarabun', sans-serif;
+      font-size: 1rem;
+      color: #888;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .tab-btn.active {
+      color: var(--royal-purple);
+      border-bottom: 3px solid var(--royal-gold);
+      background-color: rgba(116, 45, 136, 0.05);
+      font-weight: 700;
+    }
+
+    /* --- Content Area --- */
+    .content-container {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      max-width: 600px;
+      /* จำกัดความกว้างไม่ให้ยืดเกินไปในจอใหญ่ */
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .page-section {
+      display: none;
+      /* ซ่อนทุกหน้าก่อน */
+      animation: fadeIn 0.4s ease;
+    }
+
+    .page-section.active {
+      display: block;
+      /* แสดงหน้าที่เลือก */
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* --- Components Styles --- */
+    .card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+      border-left: 4px solid var(--royal-gold);
+    }
+
+    h2 {
+      color: var(--royal-purple);
+      font-size: 1.4rem;
+      margin-top: 0;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .thai-num {
+      font-variant-numeric: oldstyle-nums;
+      /* รองรับฟอนต์ที่มีเลขไทย */
+    }
+
+    /* Timeline Style */
+    .timeline-item {
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 20px;
+      border-left: 2px solid #ddd;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -6px;
+      top: 5px;
+      width: 10px;
+      height: 10px;
+      background: var(--royal-purple);
+      border: 2px solid var(--royal-gold);
+      border-radius: 50%;
+    }
+
+    .timeline-date {
+      font-weight: bold;
+      color: var(--royal-purple);
+      font-size: 1.1rem;
+    }
+
+    /* Form Search Style */
+    .search-box {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Sarabun', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .search-input:focus {
+      border-color: var(--royal-purple);
+      box-shadow: 0 0 0 2px rgba(116, 45, 136, 0.1);
+    }
+
+    .contact-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .contact-item {
+      background: var(--white);
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .contact-info strong {
+      display: block;
+      color: var(--royal-purple);
+      font-size: 1.1rem;
+    }
+
+    .contact-info span {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .btn-call {
+      background-color: var(--royal-purple);
+      color: var(--white);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    /* No results text */
+    .no-result {
+      text-align: center;
+      color: #999;
+      padding: 20px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>โครงการเยาวชนคนเก่ง</h1>
+    <p>ประจำปีงบประมาณ ๒๕๖๙</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('details')">รายละเอียด</button>
+    <button class="tab-btn" onclick="switchTab('timeline')">ระยะเวลา</button>
+    <button class="tab-btn" onclick="switchTab('contact')">ผู้ประสานงาน</button>
+  </div>
+
+  <div class="content-container">
+
+    <div id="details" class="page-section active">
+      <div class="card">
+        <h2>ความเป็นมาและวัตถุประสงค์</h2>
+        <p style="line-height: 1.8; text-align: justify; text-indent: 40px;">
+          ด้วยสมเด็จพระกนิษฐาธิราชเจ้า กรมสมเด็จพระเทพรัตนราชสุดาฯ สยามบรมราชกุมารี
+          ทรงมีพระราชดำริที่จะมุ่งเน้นการพัฒนาคุณภาพชีวิตของเยาวชนในถิ่นทุรกันดาร ให้ได้รับโอกาสทางการศึกษา
+          และการพัฒนาทักษะวิชาชีพอย่างเท่าเทียม
+        </p>
+        <p style="line-height: 1.8; text-align: justify; text-indent: 40px;">
+          โครงการนี้จึงจัดตั้งขึ้นเพื่อคัดเลือกเยาวชนที่มีผลการเรียนดีแต่ขาดแคลนทุนทรัพย์
+          เข้ารับการฝึกอบรมทักษะด้านเกษตรกรรมยั่งยืนและการจัดการทรัพยากรน้ำ เพื่อนำความรู้กลับไปพัฒนาชุมชนบ้านเกิดสืบไป
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>คุณสมบัติผู้เข้าร่วม</h2>
+        <ul style="line-height: 1.8; padding-left: 20px;">
+          <li>เป็นเยาวชนอายุระหว่าง ๑๕ ถึง ๑๘ ปี</li>
+          <li>กำลังศึกษาอยู่ในระดับมัธยมศึกษาตอนปลาย หรือ ปวช.</li>
+          <li>มีภูมิลำเนาอยู่ในพื้นที่เป้าหมายของโครงการ</li>
+          <li>มีความประพฤติดี และมีความมุ่งมั่นในการพัฒนาท้องถิ่น</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="timeline" class="page-section">
+      <div class="card">
+        <h2>กำหนดการคัดเลือก</h2>
+
+        <div class="timeline-item">
+          <div class="timeline-date thai-text-convert">1 - 15 กุมภาพันธ์ 2569</div>
+          <div>เปิดรับสมัครผ่านระบบออนไลน์</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date thai-text-convert">20 กุมภาพันธ์ 2569</div>
+          <div>ประกาศรายชื่อผู้มีสิทธิ์สอบสัมภาษณ์</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date thai-text-convert">1 มีนาคม 2569</div>
+          <div>ดำเนินการสอบสัมภาษณ์ ณ ศูนย์ประสานงานประจำภูมิภาค</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date thai-text-convert">10 มีนาคม 2569</div>
+          <div>ประกาศผลการคัดเลือกอย่างเป็นทางการ</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="contact" class="page-section">
+      <div class="search-box">
+        <input type="text" id="provinceInput" class="search-input" placeholder="พิมพ์ชื่อจังหวัด (เช่น น่าน, ตาก)...">
+      </div>
+
+      <div id="contactList" class="contact-list">
+      </div>
+      <div id="noResult" class="no-result">ไม่พบข้อมูลในจังหวัดที่ระบุ</div>
+    </div>
+
+  </div>
+
+  <script>
+    // --- Mockup Data (ข้อมูลสมมติที่ดูน่าเชื่อถือ) ---
+    const contacts = [
+      { province: "เชียงใหม่", name: "นายวีระศักดิ์ ภักดีชน", phone: "081-234-5678" },
+      { province: "เชียงราย", name: "นางสาวกานดา รักถิ่น", phone: "089-876-5432" },
+      { province: "น่าน", name: "นายสมชาย ใจมั่น", phone: "086-111-2222" },
+      { province: "ตาก", name: "นางดวงพร เจริญสุข", phone: "084-555-6666" },
+      { province: "แม่ฮ่องสอน", name: "นายอาทิตย์ แสงทอง", phone: "082-333-4444" },
+      { province: "พิษณุโลก", name: "นางสาวมาลี สีงาม", phone: "081-999-8888" },
+      { province: "กาญจนบุรี", name: "นายประเสริฐ ยั่งยืน", phone: "083-777-1234" },
+      { province: "ราชบุรี", name: "นางสมหญิง จริงใจ", phone: "085-222-3333" },
+    ];
+
+    // --- Helper Function: แปลงเลข อารบิก -> ไทย ---
+    function toThaiNum(num) {
+      const thaiNumArr = ['๐', '๑', '๒', '๓', '๔', '๕', '๖', '๗', '๘', '๙'];
+      return String(num).replace(/[0-9]/g, (w) => thaiNumArr[+w]);
+    }
+
+    // --- Core: Tab Switching Logic with URL Param ---
+    function switchTab(tabId) {
+      // 1. Hide all sections
+      document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+      // 2. Show selected
+      document.getElementById(tabId).classList.add('active');
+
+      // 3. Highlight button (find button that calls this function)
+      const index = ['details', 'timeline', 'contact'].indexOf(tabId);
+      if (index !== -1) {
+        document.querySelectorAll('.tab-btn')[index].classList.add('active');
+      }
+    }
+
+    // --- Filter System (Autocomplete Logic) ---
+    const searchInput = document.getElementById('provinceInput');
+    const contactListEl = document.getElementById('contactList');
+    const noResultEl = document.getElementById('noResult');
+
+    function renderContacts(filterText = '') {
+      contactListEl.innerHTML = '';
+
+      const filtered = contacts.filter(c => c.province.includes(filterText));
+
+      if (filtered.length === 0) {
+        noResultEl.style.display = 'block';
+        return;
+      } else {
+        noResultEl.style.display = 'none';
+      }
+
+      filtered.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'contact-item';
+        div.innerHTML = `
+                    <div class="contact-info">
+                        <strong>จังหวัด${item.province}</strong>
+                        <span>ผู้ประสานงาน: ${item.name}</span><br>
+                        <span style="color: var(--royal-purple)">โทร: ${toThaiNum(item.phone)}</span>
+                    </div>
+                    <a href="tel:${item.phone}" class="btn-call">
+                        <i class="fas fa-phone-alt"></i>
+                    </a>
+                `;
+        contactListEl.appendChild(div);
+      });
+    }
+
+    searchInput.addEventListener('input', (e) => {
+      renderContacts(e.target.value);
+    });
+
+    // --- Initialization ---
+    window.addEventListener('DOMContentLoaded', () => {
+      // 1. Convert static content to Thai Numerals
+      document.querySelectorAll('.thai-text-convert').forEach(el => {
+        el.innerText = toThaiNum(el.innerText);
+      });
+
+      // 2. Initial Render Contacts
+      renderContacts();
+
+      // 3. Check URL Params for Routing (Support LIFF Path)
+      // ตัวอย่าง: https://your-domain.com/?page=contact
+      const urlParams = new URLSearchParams(window.location.search);
+      const page = urlParams.get('page');
+
+      if (page === 'contact') switchTab('contact');
+      else if (page === 'timeline') switchTab('timeline');
+      else switchTab('details'); // Default
+    });
+
+  </script>
+</body>
+
+</html>
