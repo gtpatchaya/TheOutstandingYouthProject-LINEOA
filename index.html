@@ -36,7 +36,7 @@
       flex-direction: column;
     }
 
-    /* --- Header --- */
+    /* --- Shrinking Header Styles --- */
     header {
       background: linear-gradient(135deg, var(--royal-purple), #5a1e6b);
       color: var(--white);
@@ -49,6 +49,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: all 0.3s ease;
+      /* Smooth transition */
+    }
+
+    header.shrink {
+      padding: 10px 15px;
+      justify-content: space-between;
+      /* Logo Left, Text Center */
     }
 
     header h1 {
@@ -57,6 +65,12 @@
       font-weight: 700;
       letter-spacing: 0.5px;
       line-height: 1.5;
+      transition: all 0.3s ease;
+    }
+
+    header.shrink h1 {
+      font-size: 1rem;
+      margin-bottom: 2px;
     }
 
     header p {
@@ -64,26 +78,104 @@
       font-size: 0.9rem;
       opacity: 0.9;
       font-weight: 300;
+      transition: all 0.3s ease;
+    }
+
+    /* Shrink State: Typography & Layout */
+    header.shrink .header-content {
+      text-align: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header.shrink p {
+      margin: 0;
+      line-height: 1.2;
+      font-size: 0.8rem;
+    }
+
+    /* Logic to merge lines 1 & 2 in shrink mode */
+    header.shrink p:nth-of-type(1),
+    header.shrink p:nth-of-type(2) {
+      display: inline;
+    }
+
+    header.shrink p:nth-of-type(1)::after {
+      content: " ";
+      /* Space between merged lines */
+    }
+
+    header.shrink p:nth-of-type(2) br {
+      display: none;
+      /* Hide break tag to keep on same line */
+    }
+
+    /* Line 3 (Generation/Year) stays on new line */
+    header.shrink p:nth-of-type(3) {
+      display: block;
+      margin-top: 2px;
+      font-size: 0.75rem;
+      opacity: 0.8;
     }
 
     .header-logo {
       height: 60px;
       width: auto;
-
       margin-right: 15px;
-      /* Remove absolute positioning */
+      transition: all 0.3s ease;
     }
 
-    /* Wrap text for vertical stacking */
+    header.shrink .header-logo {
+      height: 40px;
+      /* Smaller logo */
+      margin-right: 0;
+      /* Adjust per layout needs, maybe 0 if using space-between */
+    }
+
+    /* Ensure only logo stays left in shrink mode, push content to center */
+    /* We can achieve "Logo Left, Content Center" by using a spacer or absolute centering, 
+       but `justify-content: space-between` puts logo left and content right. 
+       To get Content Center with Logo Left, we can use flex tricks or absolute pos.
+       Let's try a simpler approach for Mobile vs Desktop.
+    */
+
+    /* Refined Shrink Layout */
+    header.shrink {
+      display: grid;
+      grid-template-columns: 50px 1fr 50px;
+      /* Logo, Content, Spacer (balance) */
+      align-items: center;
+    }
+
+    header.shrink .header-logo {
+      grid-column: 1;
+      justify-self: start;
+      margin-right: 0;
+    }
+
+    header.shrink .header-content {
+      grid-column: 2;
+      text-align: center;
+    }
+
     .header-content {
       text-align: left;
+      transition: all 0.3s ease;
     }
+
 
     /* Mobile Responsive */
     @media (max-width: 480px) {
       header {
         flex-direction: column;
         text-align: center;
+      }
+
+      /* Reset Grid for normal mobile view */
+      header:not(.shrink) {
+        display: flex;
       }
 
       .header-logo {
@@ -93,6 +185,22 @@
 
       .header-content {
         text-align: center;
+      }
+
+      /* Mobile Shrink Overrides */
+      header.shrink {
+        display: flex;
+        flex-direction: row;
+        /* Row layout on shrink even for mobile */
+        justify-content: center;
+        /* Center everything or keep grid? */
+        /* Let's keep the Grid approach for consistency if supported, or fallback to Flex */
+        display: grid;
+        padding: 10px;
+      }
+
+      header.shrink .header-logo {
+        margin-bottom: 0;
       }
     }
 
@@ -547,33 +655,36 @@
       </div>
       <div id="noProvinceResult" class="no-result">ไม่พบข้อมูลจังหวัดที่ระบุ</div>
     </div>
-  </div>
 
-  <div id="contact" class="page-section">
-    <div class="search-box">
-      <input type="text" id="provinceInput" class="search-input" placeholder="พิมพ์ชื่อกลุ่ม/ภาค...">
-    </div>
-
-    <div id="contactList" class="contact-list">
-    </div>
-    <div id="noResult" class="no-result">ไม่พบข้อมูลกลุ่มที่ระบุ</div>
-
-    <div class="card" style="margin-top: 20px;">
-      <h2>ช่องทางการติดต่อ</h2>
-      <div style="text-align: center; margin-bottom: 20px;">
-        <h3 style="color: var(--royal-purple);">Line Official โครงการฯ</h3>
-        <p style="font-size: 1.2rem; font-weight: bold;">@304nppek</p>
-        <img src="img/qrcode.png" alt="QR Code"
-          style="max-width: 200px; margin-top: 10px; border: 1px solid #ddd; border-radius: 8px;">
+    <div id="contact" class="page-section">
+      <div class="search-box">
+        <p style="margin-bottom: 20px; text-align: center; text-indent: 40px; line-height: 1.6;">
+          โครงการคัดเลือกเยาวชนคนเก่ง มีผู้ประสานงานภาคจำนวน ๑๐ ภาค หากท่านมีข้อสงสัยและคำถามเพิ่มเติม
+          สามารถติดต่อได้ตามเบอร์โทรศัพท์ด้านล่างนี้
+        </p>
+        <input type="text" id="provinceInput" class="search-input" placeholder="พิมพ์ชื่อกลุ่ม/ภาค...">
       </div>
 
-      <h3 style="color: var(--royal-purple); border-bottom: 1px solid #eee; padding-bottom: 10px;">ที่ตั้งโครงการ</h3>
-      <p style="line-height: 1.6;">
-        โครงการคัดเลือกเยาวชนคนเก่ง เลขที่ ๒๒๓/๒๕๔ อาคารคันทรี่ C ชั้น ๑๒ <br>
-        ถนนสรรพาวุธ เขตบางนา กรุงเทพมหานคร ๑๐๒๖๐
-      </p>
+      <div id="contactList" class="contact-list">
+      </div>
+      <div id="noResult" class="no-result">ไม่พบข้อมูลกลุ่มที่ระบุ</div>
+
+      <div class="card" style="margin-top: 20px;">
+        <h2>ช่องทางการติดต่อ</h2>
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h3 style="color: var(--royal-purple);">Line Official โครงการฯ</h3>
+          <p style="font-size: 1.2rem; font-weight: bold;">@304nppek</p>
+          <img src="img/qrcode.png" alt="QR Code"
+            style="max-width: 200px; margin-top: 10px; border: 1px solid #ddd; border-radius: 8px;">
+        </div>
+
+        <h3 style="color: var(--royal-purple); border-bottom: 1px solid #eee; padding-bottom: 10px;">ที่ตั้งโครงการ</h3>
+        <p style="line-height: 1.6;">
+          โครงการคัดเลือกเยาวชนคนเก่ง เลขที่ ๒๒๓/๒๕๔ อาคารคันทรี่ C ชั้น ๑๒ <br>
+          ถนนสรรพาวุธ เขตบางนา กรุงเทพมหานคร ๑๐๒๖๐
+        </p>
+      </div>
     </div>
-  </div>
 
   </div>
 
@@ -581,16 +692,17 @@
     // --- Mockup Data (ข้อมูลสมมติที่ดูน่าเชื่อถือ) ---
     // --- Mockup Data (ข้อมูลสมมติที่ดูน่าเชื่อถือ) ---
     const contacts = [
-      { province: "กลุ่มภาคเหนือตอนบน", name: "นางสาวประกายดาว ส่องแสง", phone: "081-111-2222" },
-      { province: "กลุ่มภาคเหนือตอนล่าง", name: "นายขุนเขา รักป่า", phone: "082-222-3333" },
-      { province: "กลุ่มภาคอีสานตอนบน", name: "นางไหมแพร งามตา", phone: "083-333-4444" },
-      { province: "กลุ่มภาคอีสานตอนล่าง", name: "นายข้าวหอม พร้อมพรัก", phone: "084-444-5555" },
-      { province: "กลุ่มภาคกลาง (ยกเว้นกรุงเทพฯ)", name: "นางสายน้ำ ไหลเย็น", phone: "085-555-6666" },
-      { province: "กรุงเทพมหานคร และปริมณฑล", name: "นายเมืองแก้ว แวววาว", phone: "086-666-7777" },
-      { province: "กลุ่มภาคตะวันตก", name: "นางกาญจน์กมล คนดี", phone: "087-777-8888" },
-      { province: "กลุ่มภาคตะวันออก", name: "นายทะเลไทย ใสสะอาด", phone: "088-888-9999" },
-      { province: "กลุ่มภาคใต้อันดามัน", name: "นางฟ้าใส ใจสะอาด", phone: "089-999-0000" },
-      { province: "กลุ่มภาคใต้อ่าวไทย", name: "นายปักษ์ใต้ บ้านเรา", phone: "090-000-1111" },
+      { province: "ภาค ๑ เหนือตอนบน", name: "นายวัชรพงษ์ ต๊ะพรหม (คุณแซ้งค์)", phone: "063 150 7248" },
+      { province: "ภาค ๒ เหนือตอนล่าง", name: "นายจิรายุ โกศา (คุณบอส)", phone: "087 842 3253" },
+      { province: "ภาค ๒ เหนือตอนล่าง", name: "ว่าที่ร้อยตรีพิเชษฐ สร้อยวงศ์คำ (คุณอู๋)", phone: "097 327 0898" },
+      { province: "ภาค ๓ อีสานตอนบน", name: "นายวาทศิลป์ อินจงล้าน (คุณกี้)", phone: "084 389 6933" },
+      { province: "ภาค ๔ อีสานตอนล่าง", name: "นายชัชรินทร์ รักเกียรติ์ (คุณพีพี)", phone: "094 526 8268" },
+      { province: "ภาค ๕ ภาคกลาง (ยกเว้นกรุงเทพมหานคร)", name: "นายเทพพิทักษ์ ขันธบุตร (คุณเต้)", phone: "083 035 1471" },
+      { province: "ภาค ๖ กรุงเทพมหานคร และปริมณฑล", name: "นางสาวพิตะวัน วีระเสถียร (คุณพอลล่า)", phone: "083 441 5933" },
+      { province: "ภาค ๗ ตะวันตก", name: "นางสาวกาญจณวัลย์ ศิลป์เมือง (คุณจำปา)", phone: "098 570 8315" },
+      { province: "ภาค ๘ ตะวันออก", name: "นายกรกฎ พรหมเวฬุพัฒน์ (คุณกร)", phone: "061 139 7240" },
+      { province: "ภาค ๙ ใต้อันดามัน", name: "นายอภิวัฒน์ จินตะ (คุณเสก)", phone: "061 235 3432" },
+      { province: "ภาค ๑๐ ใต้อ่าวไทย", name: "นายนวพล พลคช (คุณไอย)", phone: "080 892 0103" },
     ];
 
     // --- Mockup 77 Provinces Data ---
@@ -664,7 +776,7 @@
                         <span>ผู้ประสานงาน: ${item.name}</span><br>
                         <span style="color: var(--royal-purple)">โทร: ${toThaiNum(item.phone)}</span>
                     </div>
-                    <a href="tel:${item.phone}" class="btn-call">
+                    <a href="tel:${item.phone.replace(/[-\s]/g, '')}" class="btn-call">
                         <i class="fas fa-phone-alt"></i>
                     </a>
                 `;
@@ -733,6 +845,20 @@
       else if (page === 'criteria') switchTab('criteria');
       else if (page === 'provinces') switchTab('provinces');
       else switchTab('details'); // Default
+
+      // 4. Scroll Event for Shrinking Header
+      const contentContainer = document.querySelector('.content-container');
+      const header = document.querySelector('header');
+
+      if (contentContainer && header) {
+        contentContainer.addEventListener('scroll', () => {
+          if (contentContainer.scrollTop > 50) {
+            header.classList.add('shrink');
+          } else {
+            header.classList.remove('shrink');
+          }
+        });
+      }
     });
 
   </script>
